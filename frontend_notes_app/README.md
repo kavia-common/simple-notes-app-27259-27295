@@ -1,82 +1,79 @@
-# Lightweight React Template for KAVIA
+# Ocean Notes (React) — Ocean Professional
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+A lightweight notes app built with React and vanilla CSS, featuring a modern two‑pane layout, localStorage persistence, and the Ocean Professional theme.
 
 ## Features
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+- Two‑pane responsive layout: notes list + editor (collapses on small screens)
+- Floating Action Button (+) to create a new note and focus the editor
+- Search (title/content) and sorting:
+  - Updated (desc/asc), Created (desc/asc), Title (A→Z)
+- Pinned notes section displayed above others
+- Editor with title input and auto‑resizing textarea
+- Debounced autosave with visible status (Saving… / Saved)
+- Delete with confirmation from list or editor
+- Keyboard and ARIA accessibility with visible focus styles
+- Theme toggle (light/dark); theme persisted to localStorage
+- Ocean Professional theme with variables, subtle gradients, and soft shadows
+- Data model: `{ id, title, content, createdAt, updatedAt, pinned, color }`
+- Persistence key: `ocean-notes:v1`
+- Example note is seeded on first load
 
 ## Getting Started
 
-In the project directory, you can run:
+From this directory:
 
-### `npm start`
+- `npm start` — run locally at http://localhost:3000
+- `npm test` — run tests
+- `npm run build` — production build
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+No extra dependencies beyond React.
 
-### `npm test`
+## Theming
 
-Launches the test runner in interactive watch mode.
+Theme variables are defined in `src/App.css` and applied to `:root` with `[data-theme="dark"]` overrides. Toggle theme from the header; the current theme is saved to `localStorage` under `ocean-notes:theme`.
 
-### `npm run build`
+Key colors:
+- Primary: #2563EB
+- Secondary/Success: #F59E0B
+- Error: #EF4444
+- Background: #f9fafb (light) / #0b1220 (dark)
+- Surface: #ffffff (light) / #0f172a (dark)
+- Text: #111827 (light) / #e5e7eb (dark)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Data Persistence
 
-## Customization
+Notes are stored in `localStorage` under key: `ocean-notes:v1`. On first load, an example pinned note is created. All edits autosave with debounce to avoid excessive writes while typing.
 
-### Colors
+## Project Structure
 
-The main brand colors are defined as CSS variables in `src/App.css`:
+- `src/App.js` — App shell, state management, layout, FAB
+- `src/App.css` — Ocean Professional theme variables, layout & styles
+- `src/index.css` — Global base styles
+- `src/components/Header.js` — App title, search, sort, theme toggle
+- `src/components/NotesList.js` — Renders pinned/other notes lists
+- `src/components/NoteItem.js` — Single row with pin/delete actions
+- `src/components/NoteEditor.js` — Editor with title and auto‑resizing textarea
+- `src/hooks/useLocalStorage.js` — Reusable localStorage hook
+- `src/utils/storage.js` — Data model helpers and constants
+- `src/utils/format.js` — Date formatting utilities
 
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
-```
+## Accessibility
 
-### Components
+- Semantic regions and labels for header, lists, and editor
+- Keyboard navigation:
+  - Enter/Space to select a note
+  - Ctrl/Cmd+N to create a new note
+- Visible focus rings
+- ARIA attributes:
+  - `aria-current` on selected note
+  - `aria-live` for save status
 
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
+## Limitations
 
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
+- LocalStorage only (no syncing across devices)
+- Single‑user, single‑tab (basic cross‑tab sync for theme and notes writes via storage events in the hook)
 
-## Learn More
+## License
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+MIT
